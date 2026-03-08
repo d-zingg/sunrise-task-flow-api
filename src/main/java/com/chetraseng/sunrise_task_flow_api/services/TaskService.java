@@ -1,5 +1,6 @@
 package com.chetraseng.sunrise_task_flow_api.services;
 
+import com.chetraseng.sunrise_task_flow_api.dto.FilterTaskDto;
 import com.chetraseng.sunrise_task_flow_api.dto.TaskResponse;
 import java.util.List;
 
@@ -16,5 +17,5 @@ public interface TaskService {
 
   void delete(Long id);
 
-  List<TaskResponse> filterTask(Boolean completed, String title);
+  List<TaskResponse> filterTask(FilterTaskDto filter);
 }

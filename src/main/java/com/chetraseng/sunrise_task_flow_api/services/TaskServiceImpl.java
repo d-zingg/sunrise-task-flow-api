@@ -1,5 +1,6 @@
 package com.chetraseng.sunrise_task_flow_api.services;
 
+import com.chetraseng.sunrise_task_flow_api.dto.FilterTaskDto;
 import com.chetraseng.sunrise_task_flow_api.dto.TaskResponse;
 import com.chetraseng.sunrise_task_flow_api.exception.ResourceNotFoundException;
 import com.chetraseng.sunrise_task_flow_api.mapper.TaskMapper;
@@ -8,7 +9,9 @@ import com.chetraseng.sunrise_task_flow_api.repository.LegacyTaskRepository;
 import java.util.List;
 
 import com.chetraseng.sunrise_task_flow_api.repository.TaskRepository;
+import com.chetraseng.sunrise_task_flow_api.spec.TaskSpec;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -70,9 +73,22 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public List<TaskResponse> filterTask(Boolean completed, String title) {
-    return taskRepository.findAllByCompletedAndTitleContainingIgnoreCase(completed, title).stream()
-        .map(taskMapper::toTaskResponse)
-        .toList();
+  public List<TaskResponse> filterTask(FilterTaskDto filter) {
+    Specification<TaskModel> spec = Specification.unrestricted();
+
+    if (filter.getCompleted() != null) {
+      spec = spec.and(TaskSpec.isCompleted(filter.getCompleted()));
+    }
+    if (filter.getTitle() != null && !filter.getTitle().isEmpty()) {
+      spec = spec.and(TaskSpec.containsTitle(filter.getTitle()));
+    }
+    if (filter.getProjectId() != null) {
+      spec = spec.and(TaskSpec.equalProjectId(filter.getProjectId()));
+    }
+    if (filter.getDate() != null) {
+      spec = spec.and(TaskSpec.afterCreatedAt(filter.getDate()));
+    }
+
+    return taskRepository.findAll(spec).stream().map(taskMapper::toTaskResponse).toList();
   }
 }
