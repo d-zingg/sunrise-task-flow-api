@@ -2,7 +2,9 @@ name: PR Tests
 
 on:
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
+
+  workflow_dispatch:
 
 permissions:
   pull-requests: write
@@ -16,9 +18,9 @@ jobs:
 
       - uses: actions/setup-java@v4
         with:
-          java-version: '25'
-          distribution: 'temurin'
-          cache: 'maven'
+          java-version: "25"
+          distribution: "temurin"
+          cache: "maven"
 
       - name: Run tests
         run: mvn test --batch-mode
