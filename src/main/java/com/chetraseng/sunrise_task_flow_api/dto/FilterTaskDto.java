@@ -1,6 +1,10 @@
 package com.chetraseng.sunrise_task_flow_api.dto;
 
+import com.chetraseng.sunrise_task_flow_api.model.Priority;
+import com.chetraseng.sunrise_task_flow_api.model.TaskStatus;
 import lombok.Data;
+
+import java.time.LocalDate;
 
 @Data
 public class FilterTaskDto {
@@ -10,6 +14,14 @@ public class FilterTaskDto {
   // ═══════════════════════════════════════════════════════════════════════════
   // Exercise 4: Add the following filter fields
   // ═══════════════════════════════════════════════════════════════════════════
+
+  private TaskStatus status;
+
+  private Priority priority;
+
+  private LocalDate dueBefore;
+
+  private Long labelId;
 
   // TODO: Add 'status' field — TaskStatus
   // TODO: Add 'priority' field — Priority
