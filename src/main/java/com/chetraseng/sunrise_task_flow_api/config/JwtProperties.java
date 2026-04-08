@@ -5,21 +5,12 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+@Configuration
+@ConfigurationProperties(prefix = "jwt")
+@Getter
+@Setter
 public class JwtProperties {
-    public CharSequence getSecret() {
-        return null;
-    }
-
-    public long getExpiration() {
-        return 0;
-    }
-
-    @Configuration
-    @ConfigurationProperties(prefix = "jwt")
-    @Getter
-    @Setter
-    public static class jwtProperties {
-        private String secret;
-        private long expiration;
-    }
+    private String secret;
+    private long expiration;
+    private long refreshExpiration;
 }
